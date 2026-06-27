@@ -59,6 +59,20 @@ The architecture I deployed is:
 
 I used the well-known credit card fraud detection dataset with anonymized PCA-transformed features.
 
+### Dataset Source and Setup
+
+To run this project locally, you need to download the dataset from Kaggle. Run the following commands in your terminal (e.g., inside SageMaker Studio: **File** → **New** → **Terminal**):
+
+```bash
+pip install kaggle
+
+kaggle datasets download -d mlg-ulb/creditcardfraud
+unzip creditcardfraud.zip
+ls -lh creditcard.csv   # Should be ~143 MB
+```
+
+After downloading and unzipping, place the `creditcard.csv` file in the `datasets/` folder of this repository. Note that the large dataset files (`creditcard.csv`, `train.csv`, and `test.csv`) are untracked by Git to avoid size limit issues on GitHub.
+
 ### Dataset Characteristics
 
 - Total rows: `284,807`
