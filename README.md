@@ -190,7 +190,7 @@ Fraud-class performance at threshold `0.73`:
 
 This threshold gives a much better balance between catching fraud and limiting unnecessary reviews.
 
-The selected threshold is stored in [optimal_threshold.json](/home/snehangshu/projects/sagemaker/optimal_threshold.json).
+The selected threshold is stored in [optimal_threshold.json](optimal_threshold.json).
 
 ## Business Impact Estimate
 
@@ -234,8 +234,8 @@ Model artifact location:
 
 Relevant local files:
 
-- [xgboost-model](/home/snehangshu/projects/sagemaker/xgboost-model)
-- [model.tar.gz](/home/snehangshu/projects/sagemaker/model.tar.gz)
+- [xgboost-model](xgboost-model)
+- [model.tar.gz](model.tar.gz)
 
 ## SageMaker Autoscaling
 
@@ -252,7 +252,7 @@ This matters because a notebook deployment alone is not enough for production re
 
 ## Lambda Inference Layer
 
-The Lambda code is in [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py).
+The Lambda code is in [lambda_function.py](lambda_function.py).
 
 I used the Lambda function as the business logic layer between the public API and SageMaker.
 
@@ -374,7 +374,7 @@ I verified these results from the deployed public API:
 
 ## Performance and Load Testing
 
-I also included [locustfile.py](/home/snehangshu/projects/sagemaker/locustfile.py) for API load testing.
+I also included [locustfile.py](locustfile.py) for API load testing.
 
 ### Batch API Test Results
 
@@ -413,19 +413,19 @@ These results are useful because they reflect the full deployed path:
 
 ## Local Files and Their Purpose
 
-- [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_detection_project.ipynb)
+- [fraud_detection_project.ipynb](fraud_detection_project.ipynb)
   Full workflow from EDA to deployment and API validation.
 
-- [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py)
+- [lambda_function.py](lambda_function.py)
   Lambda inference handler for API Gateway integration.
 
-- [locustfile.py](/home/snehangshu/projects/sagemaker/locustfile.py)
+- [locustfile.py](locustfile.py)
   Load test configuration for the deployed API.
 
-- [optimal_threshold.json](/home/snehangshu/projects/sagemaker/optimal_threshold.json)
+- [optimal_threshold.json](optimal_threshold.json)
   Saved decision threshold used in production inference.
 
-- [pyproject.toml](/home/snehangshu/projects/sagemaker/pyproject.toml)
+- [pyproject.toml](pyproject.toml)
   Python project dependencies.
 
 ## Dependencies
@@ -454,7 +454,7 @@ Use your preferred environment setup, then install the required packages from th
 
 ### 2. Run the notebook
 
-Open [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_detection_project.ipynb) and execute the workflow step by step.
+Open [fraud_detection_project.ipynb](fraud_detection_project.ipynb) and execute the workflow step by step.
 
 ### 3. Train and export the model
 
@@ -474,7 +474,7 @@ From the notebook, I deployed the trained model to the endpoint:
 
 ### 5. Configure Lambda
 
-I deployed [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py) as an AWS Lambda function and set:
+I deployed [lambda_function.py](lambda_function.py) as an AWS Lambda function and set:
 
 - `ENDPOINT_NAME`
 - `THRESHOLD`
