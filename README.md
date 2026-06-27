@@ -14,7 +14,7 @@ This repository goes beyond model training. In this project, I:
 - configured autoscaling and production-oriented endpoint testing
 - validated latency and error-handling behavior
 
-The notebook I used for the full workflow is [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_detection_project.ipynb).
+The notebook I used for the full workflow is [fraud_detection_project.ipynb](fraud_detection_project.ipynb).
 
 ## Project Overview
 
