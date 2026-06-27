@@ -91,7 +91,7 @@ The model expects these 30 features in this exact order:
 - `V1` to `V28`
 - `Amount`
 
-The feature name order is also stored in [datasets/features_names.json](/home/snehangshu/projects/sagemaker/datasets/features_names.json).
+The feature name order is also stored in [datasets/features_names.json](datasets/features_names.json).
 
 ## Exploratory Data Analysis
 
