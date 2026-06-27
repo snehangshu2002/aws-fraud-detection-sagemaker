@@ -1,43 +1,43 @@
 # Fraud Detection System on Amazon SageMaker
 
-This project builds and deploys an end-to-end credit card fraud detection system using Amazon SageMaker, AWS Lambda, and Amazon API Gateway.
+In this project, I built and deployed an end-to-end credit card fraud detection system using Amazon SageMaker, AWS Lambda, and Amazon API Gateway.
 
-The work in this repository goes beyond model training. It includes:
+This repository goes beyond model training. In this project, I:
 
-- exploratory data analysis on an imbalanced fraud dataset
-- preprocessing and train/test split
-- XGBoost model training and evaluation
-- threshold optimization for business-friendly fraud decisions
-- model packaging and deployment to a real SageMaker endpoint
-- Lambda integration to expose the model as an API-friendly service
-- API Gateway setup for public HTTP access
-- autoscaling configuration and production-oriented endpoint testing
-- latency and error-handling validation
+- performed exploratory data analysis on an imbalanced fraud dataset
+- prepared the data and created train/test splits
+- trained and evaluated an XGBoost model
+- tuned the fraud threshold for better business decisions
+- packaged and deployed the model to a real SageMaker endpoint
+- integrated Lambda to expose the model as an API-friendly service
+- created API Gateway for public HTTP access
+- configured autoscaling and production-oriented endpoint testing
+- validated latency and error-handling behavior
 
-The notebook used for the full workflow is [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_detection_project.ipynb).
+The notebook I used for the full workflow is [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_detection_project.ipynb).
 
 ## Project Overview
 
-The goal of this project is to detect fraudulent credit card transactions with strong recall while keeping false alerts under control. Because the dataset is extremely imbalanced, the focus is not on raw accuracy. Instead, the pipeline is designed around:
+My goal in this project was to detect fraudulent credit card transactions with strong recall while keeping false alerts under control. Because the dataset is extremely imbalanced, I did not focus on raw accuracy alone. Instead, I designed the pipeline around:
 
 - `AUC-PR` for model quality on rare fraud events
 - class imbalance handling with `scale_pos_weight`
 - threshold tuning to improve fraud-class `F1-score`
 - production deployment through AWS managed services
 
-This project was deployed as a complete inference system in AWS:
+I deployed this project as a complete inference system in AWS:
 
 1. The trained XGBoost model was packaged as `model.tar.gz`.
-2. The model artifact was uploaded to Amazon S3.
-3. A SageMaker real-time inference endpoint was deployed.
-4. An AWS Lambda function was created to validate requests and call the SageMaker endpoint.
-5. API Gateway was configured to expose the Lambda function as an HTTP API.
-6. SageMaker autoscaling was configured to support production traffic more reliably.
-7. The deployed API was tested with real payloads, error scenarios, and load tests.
+2. I uploaded the model artifact to Amazon S3.
+3. I deployed a SageMaker real-time inference endpoint.
+4. I created an AWS Lambda function to validate requests and call the SageMaker endpoint.
+5. I configured API Gateway to expose the Lambda function as an HTTP API.
+6. I configured SageMaker autoscaling to support production traffic more reliably.
+7. I tested the deployed API with real payloads, error scenarios, and load tests.
 
 ## Architecture
 
-The deployed architecture is:
+The architecture I deployed is:
 
 `Client -> API Gateway -> AWS Lambda -> SageMaker Endpoint -> Prediction Response`
 
@@ -57,7 +57,7 @@ The deployed architecture is:
 
 ## Dataset
 
-The project uses the well-known credit card fraud detection dataset with anonymized PCA-transformed features.
+I used the well-known credit card fraud detection dataset with anonymized PCA-transformed features.
 
 ### Dataset Characteristics
 
@@ -81,7 +81,7 @@ The feature name order is also stored in [datasets/features_names.json](/home/sn
 
 ## Exploratory Data Analysis
 
-The notebook shows several important findings before training:
+Before training, I used the notebook to identify several important findings:
 
 - there are no missing values in the dataset
 - fraud is extremely rare, so accuracy alone is misleading
@@ -98,7 +98,7 @@ The notebook shows several important findings before training:
 
 ## Data Preparation
 
-The preprocessing pipeline in the notebook follows a production-safe approach:
+The preprocessing pipeline I used in the notebook follows a production-safe approach:
 
 1. Remove temporary analysis-only columns if present.
 2. Split the data into features and target.
@@ -116,7 +116,7 @@ The preprocessing pipeline in the notebook follows a production-safe approach:
 
 ## Model Training
 
-The model used is `XGBoost` for binary classification.
+I used `XGBoost` for binary classification.
 
 ### Training Configuration
 
@@ -135,7 +135,7 @@ The model used is `XGBoost` for binary classification.
 
 ### Why XGBoost
 
-XGBoost is a strong choice here because it:
+I chose XGBoost here because it:
 
 - performs well on tabular classification problems
 - handles non-linear patterns effectively
@@ -163,7 +163,7 @@ This threshold catches many fraud cases, but produces too many false alarms.
 
 ### Threshold Optimization
 
-The fraud decision threshold was tuned across a range of values to maximize fraud-class `F1-score`.
+I tuned the fraud decision threshold across a range of values to maximize the fraud-class `F1-score`.
 
 - Best threshold found: `0.73`
 - Best fraud-class F1-score: `0.8000`
@@ -190,11 +190,11 @@ Using the optimized threshold and projecting the result to the full dataset:
 - Estimated investigation cost: `EUR 130`
 - Estimated net benefit: `EUR 30,422`
 
-These numbers show why threshold tuning matters. In fraud systems, the best technical threshold is not always the best operational threshold unless business cost is considered.
+These numbers show why threshold tuning matters. In fraud systems, I found that the best technical threshold is not always the best operational threshold unless business cost is also considered.
 
 ## SageMaker Deployment
 
-After training, the model was exported in native XGBoost format and packaged for SageMaker hosting.
+After training, I exported the model in native XGBoost format and packaged it for SageMaker hosting.
 
 ### Deployment Flow
 
@@ -225,22 +225,22 @@ Relevant local files:
 
 ## SageMaker Autoscaling
 
-This project also includes production-oriented endpoint scaling work in SageMaker.
+I also included production-oriented endpoint scaling work in SageMaker.
 
-Autoscaling was configured for the deployed endpoint so the real-time inference service can better respond to variable traffic without requiring manual instance management. In a real deployment, this typically means:
+I configured autoscaling for the deployed endpoint so the real-time inference service could better respond to variable traffic without requiring manual instance management. In a real deployment, this typically means:
 
 - registering the SageMaker endpoint variant as a scalable target
 - setting minimum and maximum instance counts
 - using an AWS Application Auto Scaling policy
 - scaling based on metrics such as invocation load per instance
 
-This matters because a notebook deployment alone is not enough for production readiness. Autoscaling helps the fraud detection endpoint stay available and cost-aware under changing request volume.
+This matters because a notebook deployment alone is not enough for production readiness. I wanted the fraud detection endpoint to be more reliable and cost-aware under changing request volume.
 
 ## Lambda Inference Layer
 
 The Lambda code is in [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py).
 
-The Lambda function acts as the business logic layer between the public API and SageMaker.
+I used the Lambda function as the business logic layer between the public API and SageMaker.
 
 ### Lambda Responsibilities
 
@@ -267,13 +267,13 @@ The Lambda function acts as the business logic layer between the public API and 
 
 ## API Gateway Integration
 
-API Gateway was created in AWS Console to expose the Lambda function through HTTPS.
+I created API Gateway in AWS Console to expose the Lambda function through HTTPS.
 
-The notebook tests this deployed endpoint:
+In the notebook, I tested this deployed endpoint:
 
 - `https://qpdin21s7f.execute-api.ap-south-1.amazonaws.com/prod/predict`
 
-This makes the fraud model accessible to external applications without directly exposing SageMaker.
+This let me make the fraud model accessible to external applications without directly exposing SageMaker.
 
 ## API Contract
 
@@ -331,7 +331,7 @@ The API expects a JSON body containing all required numeric features:
 
 ### Error Handling
 
-The deployed API was tested for invalid inputs and returns proper errors for:
+I tested the deployed API for invalid inputs, and it returns proper errors for:
 
 - missing required fields
 - invalid JSON payloads
@@ -341,7 +341,7 @@ The deployed API was tested for invalid inputs and returns proper errors for:
 
 ## End-to-End Validation
 
-The notebook validates the system at multiple levels.
+I validated the system at multiple levels in the notebook.
 
 ### Direct SageMaker Endpoint Test
 
@@ -352,7 +352,7 @@ Using one known fraud sample and one legitimate sample:
 
 ### Full API Test Through API Gateway
 
-Verified results from the deployed public API:
+I verified these results from the deployed public API:
 
 - known fraud request returned `fraud_detected = true`
 - known legitimate request returned `fraud_detected = false`
@@ -360,7 +360,7 @@ Verified results from the deployed public API:
 
 ## Performance and Load Testing
 
-This repository also includes [locustfile.py](/home/snehangshu/projects/sagemaker/locustfile.py) for API load testing.
+I also included [locustfile.py](/home/snehangshu/projects/sagemaker/locustfile.py) for API load testing.
 
 ### Batch API Test Results
 
@@ -444,7 +444,7 @@ Open [fraud_detection_project.ipynb](/home/snehangshu/projects/sagemaker/fraud_d
 
 ### 3. Train and export the model
 
-The notebook:
+In the notebook, I:
 
 - preprocesses the data
 - trains XGBoost
@@ -454,24 +454,24 @@ The notebook:
 
 ### 4. Deploy to SageMaker
 
-The notebook deploys the trained model to the endpoint:
+From the notebook, I deployed the trained model to the endpoint:
 
 - `fraud-detector-prod`
 
 ### 5. Configure Lambda
 
-Deploy [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py) as an AWS Lambda function and set:
+I deployed [lambda_function.py](/home/snehangshu/projects/sagemaker/lambda_function.py) as an AWS Lambda function and set:
 
 - `ENDPOINT_NAME`
 - `THRESHOLD`
 
 ### 6. Connect API Gateway
 
-Create an API Gateway route for the Lambda function so the model is accessible through HTTPS.
+I created an API Gateway route for the Lambda function so the model became accessible through HTTPS.
 
 ### 7. Test the API
 
-You can test:
+I tested the system with:
 
 - direct sample requests from the notebook
 - error-handling scenarios
@@ -479,7 +479,7 @@ You can test:
 
 ## Key Production Features Completed
 
-This project is not only a machine learning experiment. It includes practical deployment tasks typically expected in an MLOps-style demo or production prototype:
+This project is not only a machine learning experiment. It also includes practical deployment tasks that I would expect in an MLOps-style demo or production prototype:
 
 - trained an imbalanced fraud detection model with XGBoost
 - tuned classification threshold for better business outcomes
@@ -495,7 +495,7 @@ This project is not only a machine learning experiment. It includes practical de
 
 ## Future Improvements
 
-Possible next steps for this system:
+If I continue improving this system, the next steps would be:
 
 - move preprocessing into a reusable training pipeline
 - store the scaler artifact explicitly for retraining consistency
@@ -507,4 +507,4 @@ Possible next steps for this system:
 
 ## Conclusion
 
-This project demonstrates a complete machine learning deployment workflow on AWS, starting from raw fraud data and ending with a production-style prediction API. It shows model development, threshold optimization, SageMaker hosting, Lambda integration, API Gateway exposure, autoscaling considerations, and end-to-end testing in one practical fraud detection system.
+This project demonstrates the complete machine learning deployment workflow I built on AWS, starting from raw fraud data and ending with a production-style prediction API. In one project, I covered model development, threshold optimization, SageMaker hosting, Lambda integration, API Gateway exposure, autoscaling considerations, and end-to-end testing for a practical fraud detection system.
